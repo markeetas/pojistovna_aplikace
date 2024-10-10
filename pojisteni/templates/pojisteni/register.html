@@ -1,0 +1,30 @@
+<!--{% extends "base_simple.html" %}-->
+
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrace</title>
+    <link rel="stylesheet" href="{% static '/register.css' %}">
+</head>
+<body>
+    <h2>Registrace</h2>
+    <form method="post">
+        {% csrf_token %}
+         <div>
+            <label class="required-field" for="id_username">Uživatelské jméno</label>
+            <input type="text" id="id_username" name="username" value="{{ form.username.value }}" required>
+        </div>
+        <div>
+            <label class="required-field" for="id_password1">Heslo</label>
+            <input type="password" id="id_password1" name="password1" required>
+        </div>
+        <div>
+            <label class="required-field" for="id_password2">Potvrzení nového hesla</label>
+            <input type="password" id="id_password2" name="password2" required>
+        </div>
+        <button type="submit">Registrovat</button>
+    </form>
+</body>
+</html>

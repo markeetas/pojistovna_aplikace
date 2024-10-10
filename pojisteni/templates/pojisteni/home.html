@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block content %}
+    {% for insured in insureds %}
+        <a href="{% url 'insured_detail' insured.pk %}">{{ insured.name }}</a>, Adresa: {{ insured.address }}, Email: {{ insured.email }}, Telefon: {{ insured.phone }}
+        <br>
+    {% endfor %}
+{% endblock content %}

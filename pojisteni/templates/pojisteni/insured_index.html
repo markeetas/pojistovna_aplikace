@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<table class="insurance-table">
+    <thead>
+        <tr>
+            <th>Jméno</th>
+            <th>Bydliště</th>
+            <th>Email</th>
+            <th>Telefon</th>
+            <th>Akce</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for insured in insureds %}
+            <tr>
+                <td><strong><a href="{% url 'insured_detail' insured.pk %}">{{ insured.name }}</a></strong></td>
+                <td>{{ insured.address }}</td>
+                <td>{{ insured.email }}</td>
+                <td>{{ insured.phone }}</td>
+                <td colspan="2">
+                    <a href="{% url 'edit_insured' insured.pk %}" class="edit-btn">Editovat</a> 
+                    <a href="{% url 'delete_insured' insured.pk %}" class="delete-btn">Odstranit</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}

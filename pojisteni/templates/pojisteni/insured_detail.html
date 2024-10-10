@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail pojištěnce</title>
+    <style>
+         table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .button {
+            padding: 10px 15px;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .edit-button { background-color: #4CAF50; }   /* Zelená pro editaci */
+        .delete-button { background-color: #f44336; } /* Červená pro smazání */
+        .add-button { background-color: #2196F3; }    /* Modrá pro přidání */
+
+    </style>
+</head>
+
+    <!-- Osobní údaje pojištěnce -->
+    <h2>Údaje pojištěnce</h2>
+    <table>
+        <tr>
+            <th>Jméno</th>
+            <td>{{ object.first_name }} {{ object.last_name }}</td>
+        </tr>
+        <tr>
+            <th>Adresa</th>
+            <td>{{ object.address }}</td>
+        </tr>
+        <tr>
+            <th>Telefon</th>
+            <td>{{ object.phone }}</td>
+        </tr>
+        <tr>
+            <th>Email</th>
+            <td>{{ object.email }}</td>
+        </tr>
+    </table>
+
+    <!-- Sjednaná pojištění -->
+    <h3>Sjednaná pojištění</h3>
+    <table class="insured signed-insurances">
+        <thead>
+            <tr>
+                <th>Typ pojištění</th>
+                <th>Platnost od</th>
+                <th>Platnost do</th>
+                <th>Akce</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for insurance in object.insurance_set.all %}
+            <tr>
+                <td><a href="{% url 'insurance_detail' insurance.id %}">{{ insurance.policy_type }}</a></td>
+                <td>{{ insurance.start_date }}</td>
+                <td>{{ insurance.end_date }}</td>
+                <td>
+                    <a href="{% url 'edit_insurance' insurance.id %}" class="button edit-button">Editovat</a>
+                    <a href="{% url 'delete_insurance' insurance.id %}" class="button delete-button">Odstranit</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">Žádná pojištění nenalezena.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Pojistné události -->
+    <h3>Pojistné události</h3>
+    <table class="insured events">
+        <thead>
+            <tr>
+                <th>Typ události</th>
+                <th>Datum</th>
+                <th>Popis</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for event in object.insuranceevent_set.all %}
+            <tr>
+                <td>{{ event.event_type }}</td>
+                <td>{{ event.date }}</td>
+                <td>{{ event.description }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3">Žádné pojistné události nenalezeny.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Akční tlačítka pod tabulkami -->
+    <div>
+        <a href="{% url 'add_insurance' object.id %}" class="button add-button">Přidat pojištění</a>
+        <a href="{% url 'edit_insured' object.id %}" class="button edit-button">Editovat pojištěnce</a>
+        <a href="{% url 'delete_insured' object.id %}" class="button delete-button">Odstranit pojištěnce</a>
+    </div>
+
+{% endblock content %}
+

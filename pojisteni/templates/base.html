@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="cs">
+    <head>
+        {% load static %}
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+        <link rel="stylesheet"
+              href="{% static 'css/bootstrap.min.css' %}"
+              type="text/css" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Pojišťovna</title>
+    </head>
+    <body>
+        <nav>
+        <div class="flex_box">
+            <div class="logo">
+                <a href="{% url 'home' %}">
+                    <img src="{% static 'pojisteni/umbrella.png' %}" alt="Logo">
+                </a>
+            </div>
+            <div class="nav_items">
+                <div class="nav_item {% if request.path == '/pojisteni/insured_index/' %}active{% endif %}">
+                    <a href="{% url 'insured_index' %}">Pojištěnci</a>
+                </div>
+                <div class="nav_item {% if request.path == '/pojisteni/insurance_index/' %}active{% endif %}">
+                    <a href="{% url 'insurance_index' %}">Pojištění</a>
+                </div>
+                <div class="nav_item {% if request.path == '/pojisteni/events_index/' %}active{% endif %}">
+                    <a href="{% url 'events_index' %}">Události</a>
+                </div>
+                <div class="nav_item {% if request.path == '/pojisteni/about/' %}active{% endif %}" style="margin-bottom: 20px;">
+                    <a href="{% url 'about' %}">O aplikaci</a>
+                </div>
+            </div>
+            <div class="user-actions">
+                {% if user.is_authenticated %}
+                    <p>Přihlášený uživatel: {{ user.username }}</p>
+                    <form action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">Odhlásit se</button>
+                    </form>
+                {% else %}
+                    <!-- Přihlašovací odkaz (GET) -->
+                    <a href="{% url 'login' %}">Přihlásit se</a>
+
+                    <!-- Formulář pro registraci (POST) -->
+                    <form action="{% url 'register' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">Registrace</button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+
+        <div class="content">
+            {% block content %}
+            {% endblock content %}
+        </div>
+        <footer>
+             &copy;Vyrobila Markéta
+        </footer>
+    </body>
+</html>

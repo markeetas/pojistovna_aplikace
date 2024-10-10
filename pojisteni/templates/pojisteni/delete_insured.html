@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Opravdu chcete smazat tohoto pojištěnce?</h2>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Ano, smazat</button>
+        <a href="{% url 'insured_index' %}">Zrušit</a>
+    </form>
+{% endblock content %}
